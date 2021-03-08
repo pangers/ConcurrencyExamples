@@ -21,7 +21,10 @@ serialQueue.async {
 }
 // In the above, task 1 will be completed before task 2 starts
 
-// Concurrent queue allows multiple tasks to start at the same time but they may finish in any order (as the tasks will be completed in parallel)
+// Tasks sent to a concurrent queue will start in the order they are queued, but each successive task may begin before the previous task is finished. This means that the order each task is finished in not guaranteed.
+// Single-core CPUs and Multi-core CPUs can both run tasks concurrently. In a single-core environment, the CPU will jump between tasks (before they are finished) to execute the tasks concurrently. The tasks don't run at the exact same instant in time.
+// With multi-core CPUs, tasks can be run at the exact same instant in time since there are multiple cores available to perform work. This is called parallelism.
+// Apple Documentation doesn't explicitly say where tasks dispatched on a concurrent queue will run in parallel (or just concurrently). That is probably abstracted away from us.
 let concurrentQueue = DispatchQueue(label: "pangers.concurrent.queue", attributes: .concurrent)
 
 concurrentQueue.async {
